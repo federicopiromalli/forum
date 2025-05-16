@@ -4,10 +4,8 @@ const user = {
     users_key: 'users',
 
     create_users_if_needed() {
-        if (localStorage.getItem(this.users_key) === null) {
-            console.log('utenti creati.');
+        if (localStorage.getItem(this.users_key) === null)
             localStorage.setItem(this.users_key, JSON.stringify([]));
-        }
     },
 
     // controlla se un username esiste

@@ -5,7 +5,7 @@
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>SignUp of Forum</title>
+        <title>SignUp of #Forum</title>
 
         <link rel="stylesheet" href="../css/fonts.css">
         <link rel="stylesheet" href="../css/utility.css">
@@ -23,7 +23,7 @@
                     <input type="text" name="signup_field" class="form-control text" placeholder="Crea un nome utente..." id="username">
                     <br>
                     <label class="form-label text">Password</label>
-                    <input type="password" name="signup_field" class="form-control text" placeholder="Crea una password...">
+                    <input type="password" name="signup_field" class="form-control text" placeholder="Crea una password..." id="password">
                 </form>
             </div>
             <div class="container d-grid gap-2 text">
@@ -35,17 +35,22 @@
         <script src="../js/user.js"></script>
         <script>
             function on_create() {
-
+                // Fields vuoti
                 form.load_fields_by_name('signup_field');
-                if (!form.is_form_filled()) {   // Fields vuoti
+                if (!form.is_form_filled()) {
                     alert(form_errors.EMPTY_FIELDS); return;
                 }
 
+                // Utente gia' registrato
                 user.create_users_if_needed();
-                if (user.is_user_existing(document.getElementById('username').value)) {     // Utente gia' registrato
+                const username = document.getElementById('username').value;
+                if (user.is_user_existing(username)) {
                     alert(user_errors.USER_ALREADY_EXISTS); return;
                 }
 
+                // l'utente puo' registrarsi
+                user.register_user(username, document.getElementById('password').value);
+                window.location.href = './signin.html';
             }
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>

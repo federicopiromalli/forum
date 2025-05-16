@@ -1,0 +1,18 @@
+/* Titles */
+@font-face {
+    font-family: 'title';
+    src: url(../fonts/Inter_18pt-Black.ttf);
+}
+.title {
+    font-family: 'title';
+}
+
+
+/* Normal Text */
+@font-face {
+    font-family: 'text';
+    src: url(../fonts/Inter_18pt-Regular.ttf);
+}
+.text {
+    font-family: 'text';
+}

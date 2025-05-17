@@ -19,7 +19,7 @@ const user = {
         localStorage.setItem(this.users_key, JSON.stringify(users));
     },
 
-    // controlla se un username esiste
+    // controlla se un utente esiste
     is_user_existing(_username) {
         return JSON.parse(localStorage.getItem(this.users_key)).find(user => user.username === _username) !== undefined;
     },
@@ -30,10 +30,21 @@ const user = {
         this.update_users(users);
     },
 
+    // controlla che username e password rispettino i requisiti
+    are_requirements_valid(username, password) {
+        return (username.length <= 10 && password.length <= 10);
+    },
+
     // crea la sezione dell'utente loggato
     create_logged_if_needed() {
         if (localStorage.getItem(this.logged_key) === null)
             localStorage.setItem(this.logged_key, JSON.stringify({}));
+    },
+
+    exit_if_not_logged() {
+        if (localStorage.getItem(this.logged_key) === null) {
+            alert(user_errors.NO_LOGGED_USER); window.location.href = './index.html';
+        }
     },
 
     // prende l'utente loggato
@@ -61,11 +72,24 @@ const user = {
 
     show_profile_info(username_id, password_id, date_id) {
         const logged = this.get_logged();
-        document.getElementById(date_id).textContent += logged.date;
-        document.getElementById(username_id).textContent += logged.username;
-        document.getElementById(password_id).textContent += logged.password;
+        document.getElementById(username_id).textContent = logged.username;
+        document.getElementById(password_id).textContent = logged.password;
+        document.getElementById(date_id).textContent = logged.date;
+    },
+
+    logout() {
+        localStorage.removeItem(this.logged_key);
+        window.location.href = './index.html';
+    },
+
+    delete_profile() {
+        const new_users = this.get_users().filter(user => user.username !== this.get_logged().username);
+        if (new_users.length === 0)     // cancello anche la sezione utenti perche' e' vuota
+            localStorage.removeItem(this.users_key);
+        else
+            this.update_users(new_users);
+        this.logout();
     }
-    
 };
 
 
@@ -74,6 +98,8 @@ const user_errors = {
 
     USER_NOT_FOUND: "L'utente non esiste, registrati!",
     USER_ALREADY_EXISTS: "L'utente esiste gia', accedi!",
-    PASSWORD_NOT_MATCH: 'Le password non corrispondono!'
+    PASSWORD_NOT_MATCH: 'Le password non corrispondono!',
+    REQUIREMENTS_ERROR: 'Username e Password devono essere di 10 o meno caratteri!',
+    NO_LOGGED_USER: 'Non puoi accedere a questa pagina se non sei loggato!'
 
 };

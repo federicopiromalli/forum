@@ -1,4 +1,4 @@
-// gestrisce tutti gli utenti e le registrazioni
+// gestrisce tutti gli utenti e le funzioni a loro collegate
 const user = {
   
     users_key: 'users',

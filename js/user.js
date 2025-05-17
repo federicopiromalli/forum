@@ -61,9 +61,9 @@ const user = {
 
     show_profile_info(username_id, password_id, date_id) {
         const logged = this.get_logged();
+        document.getElementById(date_id).textContent += logged.date;
         document.getElementById(username_id).textContent += logged.username;
         document.getElementById(password_id).textContent += logged.password;
-        document.getElementById(date_id).textContent += logged.date;
     }
     
 };

@@ -89,6 +89,24 @@ const user = {
         else
             this.update_users(new_users);
         this.logout();
+    },
+
+    load_chat_with(username, div_id) {
+        const div = document.getElementById(div_id);  
+    },
+
+    show_users(users_id, chat_id) {
+        const div = document.getElementById(users_id);
+        this.get_users().forEach(user => {
+            if (user.username !== this.get_logged().username) {
+                // creo i 'bottoni utente'
+                const button = document.createElement('button');
+                button.textContent = user.username;
+                button.className = 'btn shadow-sm btn-dark';
+                button.addEventListener('click', () => this.load_chat_with(user.username, chat_id));
+                div.appendChild(button);
+            }
+        });
     }
 };
 

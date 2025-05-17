@@ -13,28 +13,39 @@
     
     </head>
     <body class="center-body">
+        <script src="../js/user.js"></script>
+        <script> user.exit_if_not_logged(); </script>
         <div class="shadow rounded-3 p-5">
             <div class="container mb-5">
                 <h1 class="title text-center">Le tue Info!</h1>
             </div>
             <div class="container mb-5">
-                <div class="row gap-5 align-items-center">
-                    <div class="col-auto text-start">
-                        <h5 class="text mb-4" id="username-info">Username: </h5>
-                        <h5 class="text mb-4" id="password-info">Password: </h5>
-                        <h5 class="text" id="date-info">Data: </h5>
+                <div class="row gap-3 align-items-center">
+                    <div class="col-auto rounded-3 shadow p-4 text">
+                        <div class="row mb-3">
+                            <div class="col"> <h5>Data: </h5> </div>
+                            <div class="col-auto"> <h5 id="date-info"></h5> </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col"> <h5>Username: </h5> </div>
+                            <div class="col-auto"> <h5 id="username-info"></h5> </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"> <h5>Password: </h5> </div>
+                            <div class="col-auto"> <h5 id="password-info"></h5> </div>
+                        </div>
                     </div>
-                    <div class="col-auto rounded-3 shadow p-5 d-grid gap-2">
+                    <div class="col-auto rounded-3 shadow p-4 d-grid gap-2">
                         <button class="btn btn-dark shadow-lg rounded-3" onclick="window.location.href='';"">Cambia Username</button>
                         <button class="btn btn-dark shadow-lg rounded-3" onclick="window.location.href='';">Cambia Password</button>
                         <button class="btn btn-dark shadow-lg rounded-3" onclick="history.back();">Indietro</button>
-                        <button class="btn btn-danger shadow-lg rounded-3" onclick="window.location.href='';">Logout</button>
-                        <button class="btn btn-danger shadow-lg rounded-3" onclick="window.location.href='';">Cancella Account</button>
+                        <hr>
+                        <button class="btn btn-danger shadow-lg rounded-3" onclick="user.logout();">Logout</button>
+                        <button class="btn btn-danger shadow-lg rounded-3" onclick="user.delete_profile();">Cancella Profilo</button>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="../js/user.js"></script>
         <script> user.show_profile_info('username-info', 'password-info', 'date-info'); </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     </body>

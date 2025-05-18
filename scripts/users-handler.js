@@ -33,6 +33,7 @@ const users_handler = {
         username: _username,
         password: _password,
         date: new Date().toLocaleDateString(),
+        points: 0,
       });
       this.load_users();
     } else alert(users_errors.USER_ALREADY_EXISTS);

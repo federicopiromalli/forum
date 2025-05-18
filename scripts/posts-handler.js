@@ -1,4 +1,6 @@
 const posts_handler = {
+  posts: [],
+  posts_item: "posts",
   async request_posts() {
     // prendo i post (api)
     try {
@@ -26,7 +28,7 @@ const posts_handler = {
     // username che ha fatto il post
     const profile = document.createElement("h4");
     profile.className = "title post-title";
-    profile.textContent = username;
+    profile.textContent = "@" + username;
     // titolo
     const title = document.createElement("h5");
     title.className = "title post-title";
@@ -39,17 +41,30 @@ const posts_handler = {
     const answer = document.createElement("img");
     answer.className = "post-img-size";
     answer.src = "../img/home/comment.png";
+    answer.loading = "lazy";
     answer.addEventListener("click", () => {});
     const answer_container = document.createElement("div");
     answer_container.className = "container text-end";
     answer_container.appendChild(answer);
 
     container.appendChild(profile);
+    container.appendChild(document.createElement("hr"));
     container.appendChild(title);
     container.appendChild(document.createElement("br"));
     container.appendChild(body);
     container.appendChild(answer_container);
     return container;
+  },
+  create_posts_if_needed() {
+    if (localStorage.getItem(this.posts_item) === null)
+      localStorage.setItem(this.posts_item, JSON.stringify([]));
+  },
+  get_posts() {
+    this.create_posts_if_needed();
+    this.posts = JSON.parse(localStorage.getItem(this.posts_item));
+  },
+  load_posts() {
+    localStorage.setItem(this.posts_item, JSON.stringify(this.posts));
   },
   async display_default_posts() {
     const posts = await this.request_posts();
@@ -60,9 +75,19 @@ const posts_handler = {
         this.build_post(posts.at(i), users.at(i).username, null, null)
       );
   },
-  display_post(div_id, username, title, body) {
-    document
-      .getElementById(div_id)
-      .appendChild(this.build_post(null, username, title, body));
+  display_posts(div_id) {
+    this.get_posts();
+    const div = document.getElementById(div_id);
+    this.posts.forEach((post) => {
+      div.appendChild(
+        this.build_post(null, post.username, post.title, post.body)
+      );
+    });
+  },
+  add_to_posts(user, title, body) {
+    this.get_posts();
+    this.posts.push({ username: user.username, title, body });
+    this.load_posts();
+    ++user.points; // aggiungo 1 punto per ogni post
   },
 };

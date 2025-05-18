@@ -15,13 +15,30 @@
     />
   </head>
   <body class="center-body">
+    <script src="../scripts/users-handler.js"></script>
+    <script src="../scripts/permissions.js"></script>
+    <script>
+      users_handler.get_logged();
+      exit_if_not_logged(users_handler.logged);
+    </script>
     <div>
       <div class="row gap-5 align-items-center">
+        <div class="col-auto shadow rounded-3 p-5">
+          <h2 class="title mb-5">Utenti piu' attivi</h2>
+          <div
+            class="container text-center"
+            id="most_active_users"
+            style="overflow-y: auto; max-height: 130px"
+          ></div>
+        </div>
         <div class="col-auto shadow rounded-3 p-5">
           <div class="row align-items-center">
             <div class="col"><h1 class="title">Post</h1></div>
             <div class="col-auto text-end">
-              <button class="btn">
+              <button
+                class="btn"
+                onclick="window.location.href='./create-post.html';"
+              >
                 <img
                   class="img-size"
                   src="../img/home/post.png"
@@ -68,8 +85,16 @@
       </div>
     </div>
     <script src="../scripts/posts-handler.js"></script>
+    <script src="../scripts/utility.js"></script>
     <script>
+      users_handler.get_users();
+      utility.display_most_active_users(
+        "most_active_users",
+        users_handler.users
+      );
+
       posts_handler.display_default_posts();
+      posts_handler.display_posts("posts");
     </script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"

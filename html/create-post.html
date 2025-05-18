@@ -15,36 +15,40 @@
     />
   </head>
   <body class="center-body">
+    <script src="../scripts/users-handler.js"></script>
+    <script src="../scripts/permissions.js"></script>
+    <script>
+      users_handler.get_logged();
+      exit_if_not_logged(users_handler.logged);
+    </script>
     <div class="shadow rounded-3 p-5">
       <div class="container mb-5">
-        <h1 class="title">Entra nel tuo profilo!</h1>
-        <h5 class="text">
-          Ultimo passo prima di poter condividere le tue esperienze!
-        </h5>
+        <h1 class="title">Crea un Post!</h1>
+        <h4 class="text">Condividi con altri i tuoi dubbi</h4>
       </div>
       <div class="container text">
         <form onsubmit="on_enter(event);">
-          <label class="form-label">Username</label>
+          <label class="form-label">Titolo</label>
           <input
-            id="username"
+            id="title"
             type="text"
             class="form-control"
-            placeholder="Inserisci il tuo Username..."
+            placeholder="Scegli un titolo che riassuma tutto..."
             required
           />
           <br />
-          <label class="form-label">Password</label>
-          <input
-            id="password"
-            type="password"
-            class="form-control"
-            placeholder="Inserisci la tua Password..."
+          <label class="form-label">Contenuto</label>
+          <textarea
+            id="contents"
+            class="form-control p-3"
+            style="height: 150px"
+            placeholder="Scrivi qui il contenuto del Post..."
             required
-          />
+          ></textarea>
           <br />
           <br />
           <div class="container d-grid text gap-2">
-            <button type="submit" class="btn btn-dark shadow-lg">Entra</button>
+            <button type="submit" class="btn btn-dark shadow-lg">Posta</button>
             <button class="btn btn-dark shadow-lg" onclick="history.back();">
               Indietro
             </button>
@@ -52,15 +56,23 @@
         </form>
       </div>
     </div>
-    <script src="../scripts/users-handler.js"></script>
+    <script src="../scripts/posts-handler.js"></script>
     <script>
       function on_enter(event) {
         event.preventDefault();
-        // controlli prima del login
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-        if (username.trim() && password.trim())
-          users_handler.login(username, password);
+        // controlli prima del post
+        const title = document.getElementById("title").value;
+        const contents = document.getElementById("contents").value;
+        if (title.trim() && contents.trim()) {
+          users_handler.get_logged();
+          posts_handler.add_to_posts(
+            users_handler.search_user(users_handler.logged.username),
+            title,
+            contents
+          );
+          users_handler.load_users();
+          window.location.href = "./home.html";
+        }
       }
     </script>
     <script

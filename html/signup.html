@@ -24,7 +24,7 @@
         </h5>
       </div>
       <div class="container text">
-        <form>
+        <form onsubmit="on_create(event);">
           <label class="form-label">Username</label>
           <input
             id="username"
@@ -45,13 +45,7 @@
           <br />
           <br />
           <div class="container d-grid text gap-2">
-            <button
-              type="submit"
-              class="btn btn-dark shadow-lg"
-              onclick="on_create();"
-            >
-              Crea
-            </button>
+            <button type="submit" class="btn btn-dark shadow-lg">Crea</button>
             <button class="btn btn-dark shadow-lg" onclick="history.back();">
               Indietro
             </button>
@@ -61,12 +55,15 @@
     </div>
     <script src="../scripts/users-handler.js"></script>
     <script>
-      function on_create() {
+      function on_create(event) {
+        event.preventDefault();
         // controlli prima della creazione
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
-        if (username && password)
+        if (username && password) {
           users_handler.register_user(username, password);
+          window.location.href = "./signin.html";
+        }
       }
     </script>
     <script

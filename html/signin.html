@@ -23,7 +23,7 @@
         </h5>
       </div>
       <div class="container text">
-        <form>
+        <form onsubmit="on_enter(event);">
           <label class="form-label">Username</label>
           <input
             id="username"
@@ -44,13 +44,7 @@
           <br />
           <br />
           <div class="container d-grid text gap-2">
-            <button
-              type="submit"
-              class="btn btn-dark shadow-lg"
-              onclick="on_enter();"
-            >
-              Entra
-            </button>
+            <button type="submit" class="btn btn-dark shadow-lg">Entra</button>
             <button class="btn btn-dark shadow-lg" onclick="history.back();">
               Indietro
             </button>
@@ -60,7 +54,8 @@
     </div>
     <script src="../scripts/users-handler.js"></script>
     <script>
-      function on_enter() {
+      function on_enter(event) {
+        event.preventDefault();
         // controlli prima del login
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;

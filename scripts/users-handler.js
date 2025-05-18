@@ -58,6 +58,7 @@ const users_handler = {
       if (user.password === _password) {
         this.logged = user;
         this.load_logged();
+        location.href = "../html/home.html";
       } else alert(users_errors.CREDENTIALS_NOT_MATCH);
     }
   },

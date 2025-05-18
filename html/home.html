@@ -93,8 +93,9 @@
         users_handler.users
       );
 
+      users_handler.get_logged();
       posts_handler.display_default_posts();
-      posts_handler.display_posts("posts");
+      posts_handler.display_posts("posts", users_handler.logged.username);
     </script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
@@ -109,3 +110,4 @@
 <!-- <a href="https://www.flaticon.com/free-icons/add-document" title="add-document icons">Add-document icons created by Graphics Plazza - Flaticon</a> -->
 <!-- <a href="https://www.flaticon.com/free-icons/equalizer-controller" title="equalizer-controller icons">Equalizer-controller icons created by Graphics Plazza - Flaticon</a> -->
 <!-- <a href="https://www.flaticon.com/free-icons/message" title="message icons">Message icons created by Graphics Plazza - Flaticon</a> -->
+<!-- <a href="https://www.flaticon.com/free-icons/uninstall" title="uninstall icons">Uninstall icons created by Graphics Plazza - Flaticon</a> -->

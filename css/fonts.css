@@ -1,0 +1,15 @@
+@font-face {
+  font-family: "title";
+  src: url(../fonts/JosefinSans-Bold.ttf);
+}
+.title {
+  font-family: "title";
+}
+
+@font-face {
+  font-family: "text";
+  src: url(../fonts/JosefinSans-Regular.ttf);
+}
+.text {
+  font-family: "text";
+}

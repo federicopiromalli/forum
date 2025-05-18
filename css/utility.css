@@ -4,3 +4,11 @@
   display: flex;
   justify-content: center;
 }
+
+.img-size {
+  width: 47px;
+}
+
+.post-img-size {
+  width: 35px;
+}

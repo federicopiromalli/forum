@@ -13,3 +13,19 @@
 .text {
   font-family: "text";
 }
+
+@font-face {
+  font-family: "post-title";
+  src: url(../fonts/Inter_18pt-Black.ttf);
+}
+.post-title {
+  font-family: "post-title";
+}
+
+@font-face {
+  font-family: "post-body";
+  src: url(../fonts/Inter_18pt-Regular.ttf);
+}
+.post-body {
+  font-family: "post-body";
+}

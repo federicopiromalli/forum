@@ -56,6 +56,7 @@ const posts_handler = {
       trash.addEventListener("click", () => {});
       answer_container.appendChild(trash);
     }
+
     container.appendChild(profile);
     container.appendChild(document.createElement("hr"));
     container.appendChild(title);

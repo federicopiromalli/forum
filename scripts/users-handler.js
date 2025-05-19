@@ -1,4 +1,5 @@
 const users_errors = {
+  USER_NOT_EXIST: "L'utente non esiste, registrati!",
   USER_ALREADY_EXISTS: "L'utente esiste gia', accedi!",
   CREDENTIALS_NOT_MATCH: "Le credenziali sono errate!",
 };
@@ -16,6 +17,7 @@ const users_handler = {
   get_users() {
     // prende gli utenti da localStorage
     this.users = JSON.parse(localStorage.getItem(this.users_item));
+    if (!this.users) this.users = [];
   },
   load_users() {
     // imposta gli utenti in localStorage
@@ -61,6 +63,6 @@ const users_handler = {
         this.load_logged();
         location.href = "../html/home.html";
       } else alert(users_errors.CREDENTIALS_NOT_MATCH);
-    }
+    } else alert(users_errors.USER_NOT_EXIST);
   },
 };

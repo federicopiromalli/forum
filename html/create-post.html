@@ -66,11 +66,14 @@
         if (title.trim() && contents.trim()) {
           users_handler.get_logged();
           posts_handler.add_to_posts(
+            // aggiungo il post ai post
             users_handler.search_user(users_handler.logged.username),
+            users_handler.logged,
             title,
             contents
           );
           users_handler.load_users();
+          users_handler.load_logged();
           window.location.href = "./home.html";
         }
       }

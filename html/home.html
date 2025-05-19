@@ -18,6 +18,7 @@
     <script src="../scripts/users-handler.js"></script>
     <script src="../scripts/permissions.js"></script>
     <script>
+      // controlla se loggato
       users_handler.get_logged();
       exit_if_not_logged(users_handler.logged);
     </script>
@@ -64,7 +65,7 @@
           ></div>
         </div>
         <div class="col-auto shadow rounded-3 p-4 text-center">
-          <button class="btn">
+          <button class="btn" onclick="window.location.href='./profile.html';">
             <img
               class="img-size"
               src="../img/home/profile.png"
@@ -87,14 +88,16 @@
     <script src="../scripts/posts-handler.js"></script>
     <script src="../scripts/utility.js"></script>
     <script>
+      // mostra gli utenti piu' attivi
       users_handler.get_users();
       utility.display_most_active_users(
         "most_active_users",
         users_handler.users
       );
 
-      users_handler.get_logged();
+      // mostra i post default e degli utenti veri.
       posts_handler.display_default_posts();
+      users_handler.get_logged();
       posts_handler.display_posts("posts", users_handler.logged.username);
     </script>
     <script

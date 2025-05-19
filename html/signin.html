@@ -30,6 +30,7 @@
             type="text"
             class="form-control"
             placeholder="Inserisci il tuo Username..."
+            name="signin_field"
             required
           />
           <br />
@@ -39,6 +40,7 @@
             type="password"
             class="form-control"
             placeholder="Inserisci la tua Password..."
+            name="signin_field"
             required
           />
           <br />
@@ -53,6 +55,7 @@
       </div>
     </div>
     <script src="../scripts/users-handler.js"></script>
+    <script src="../scripts/forms-handler.js"></script>
     <script>
       function on_enter(event) {
         event.preventDefault();
@@ -61,6 +64,7 @@
         const password = document.getElementById("password").value;
         if (username.trim() && password.trim())
           users_handler.login(username, password);
+        forms_handler.clear_fields_by_name("signin_field");
       }
     </script>
     <script

@@ -28,7 +28,6 @@ const users_handler = {
     return this.users.find((user) => user.username === _username_to_find);
   },
   register_user(_username, _password) {
-    this.create_users_if_needed();
     if (this.search_user(_username) === undefined) {
       // creo l'utente solo se non esiste
       this.users.push({
@@ -37,6 +36,7 @@ const users_handler = {
         date: new Date().toLocaleDateString(),
         points: 0,
       });
+      this.create_users_if_needed();
       this.load_users();
     } else alert(users_errors.USER_ALREADY_EXISTS);
   },
@@ -54,15 +54,36 @@ const users_handler = {
     localStorage.setItem(this.logged_item, JSON.stringify(this.logged));
   },
   login(_username, _password) {
-    this.create_logged_if_needed();
     const user = this.search_user(_username);
     if (user) {
       // creo l'utente se esiste e le credenziali sono corrette
       if (user.password === _password) {
+        this.create_logged_if_needed();
         this.logged = user;
         this.load_logged();
         location.href = "../html/home.html";
       } else alert(users_errors.CREDENTIALS_NOT_MATCH);
     } else alert(users_errors.USER_NOT_EXIST);
+  },
+  display_profile_info(username_id, password_id, points_id, date_id) {
+    this.get_logged();
+    document.getElementById(username_id).textContent = this.logged.username;
+    document.getElementById(password_id).textContent = this.logged.password;
+    document.getElementById(points_id).textContent = this.logged.points;
+    document.getElementById(date_id).textContent = this.logged.date;
+  },
+  logout() {
+    localStorage.removeItem(this.logged_item);
+    window.location.href = "./index.html";
+  },
+  delete_profile() {
+    this.get_users();
+    this.get_logged();
+    this.users = this.users.filter(
+      (user) => user.username !== this.logged.username
+    );
+    if (this.users.length === 0) localStorage.removeItem(this.users_item);
+    else this.load_users();
+    this.logout();
   },
 };

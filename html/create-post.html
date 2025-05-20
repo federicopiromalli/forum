@@ -56,26 +56,26 @@
         </form>
       </div>
     </div>
-    <script src="../scripts/posts-handler.js"></script>
+    <script src="../scripts/post-handler.js"></script>
     <script>
       function on_enter(event) {
         event.preventDefault();
-        // controlli prima del post
-        const title = document.getElementById("title").value;
-        const contents = document.getElementById("contents").value;
-        if (title.trim() && contents.trim()) {
+        const title = document.getElementById("title").value.trim();
+        const contents = document.getElementById("contents").value.trim();
+        if (title && contents) {
+          // se validi, crea il post
+          users_handler.get_users();
           users_handler.get_logged();
-          posts_handler.add_to_posts(
-            // aggiungo il post ai post
-            users_handler.search_user(users_handler.logged.username),
+          post_handler.create_post(
+            users_handler.users,
             users_handler.logged,
             title,
             contents
           );
-          users_handler.load_users();
-          users_handler.load_logged();
-          window.location.href = "./home.html";
         }
+        users_handler.load_users();
+        users_handler.load_logged();
+        window.location.href = "./home.html";
       }
     </script>
     <script

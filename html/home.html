@@ -15,8 +15,8 @@
     />
   </head>
   <body class="center-body">
-    <script src="../scripts/users-handler.js"></script>
     <script src="../scripts/permissions.js"></script>
+    <script src="../scripts/users-handler.js"></script>
     <script>
       // controlla se loggato
       users_handler.get_logged();
@@ -85,8 +85,8 @@
         </div>
       </div>
     </div>
-    <script src="../scripts/posts-handler.js"></script>
     <script src="../scripts/utility.js"></script>
+    <script src="../scripts/post-handler.js"></script>
     <script>
       // mostra gli utenti piu' attivi
       users_handler.get_users();
@@ -94,11 +94,9 @@
         "most_active_users",
         users_handler.users
       );
-
-      // mostra i post default e degli utenti veri.
-      posts_handler.display_default_posts();
-      users_handler.get_logged();
-      posts_handler.display_posts("posts", users_handler.logged.username);
+      // mostro i post
+      post_handler.show_posts("posts");
+      post_handler.show_default_posts("posts");
     </script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"

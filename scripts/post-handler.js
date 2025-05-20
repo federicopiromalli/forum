@@ -1,0 +1,99 @@
+const post_handler = {
+  posts: [],
+  posts_item: "posts",
+  last_id: 0,
+  last_id_item: "last_id",
+  create_posts_if_needed() {
+    // crea la sezione dei post se necessario
+    if (!localStorage.getItem(this.posts_item))
+      localStorage.setItem(this.posts_item, JSON.stringify([]));
+  },
+  get_posts_from_storage() {
+    // prende i post da localStorage
+    this.posts = JSON.parse(localStorage.getItem(this.posts_item));
+  },
+  load_posts_in_storage() {
+    // inserisce i post in localStorage
+    this.create_posts_if_needed();
+    localStorage.setItem(this.posts_item, JSON.stringify(this.posts));
+  },
+  create_id_if_needed() {
+    // crea la sezione dell'ultimo id usato
+    if (!localStorage.getItem(this.last_id_item))
+      localStorage.setItem(this.last_id_item, JSON.stringify(0));
+  },
+  get_id_from_storage() {
+    // prendo l'ultimo id usato
+    this.last_id = JSON.parse(localStorage.getItem(this.last_id_item));
+  },
+  load_id_in_storage() {
+    // inserisce in localStorage l'ultimo id
+    localStorage.setItem(this.last_id_item, this.last_id);
+  },
+  async request_default_posts() {
+    // prendo i post generate automaticamente (api)
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts"
+      );
+      return await response.json();
+    } catch (error) {
+      alert(`Errore durante il caricamento dei post default! ${error}`);
+      return [];
+    }
+  },
+  build_post(username, title, body) {
+    // costruisco il post pezzo per pezzo
+    const div = document.createElement("div");
+    div.className = "container shadow-lg rounded-3 p-4 mb-5";
+
+    const creator = document.createElement("h3");
+    creator.className = "post-title";
+    creator.textContent = username;
+    div.appendChild(creator);
+
+    div.appendChild(document.createElement("hr"));
+    const post_title = document.createElement("h4");
+    post_title.className = "post-title";
+    post_title.textContent = title;
+    div.appendChild(post_title);
+
+    const post_body = document.createElement("p");
+    post_body.className = "post-body";
+    post_body.textContent = body;
+    div.appendChild(post_body);
+
+    return div;
+  },
+  create_post(users, logged, post_title, post_body) {
+    this.create_posts_if_needed();
+    this.get_posts_from_storage();
+    this.create_id_if_needed();
+    this.get_id_from_storage();
+    this.posts.unshift({
+      creator: logged.username,
+      id: this.last_id++,
+      title: post_title,
+      body: post_body,
+    });
+    this.load_id_in_storage();
+    this.load_posts_in_storage();
+    // aumento i punti di 1 per ogni post creato
+    ++logged.points;
+    ++users.find((user) => user.username === logged.username).points;
+  },
+  async show_default_posts(div_id) {
+    const div = document.getElementById(div_id);
+    const posts = await this.request_default_posts();
+    posts.forEach((post) => {
+      div.appendChild(this.build_post("@Bot", post.title, post.body));
+    });
+  },
+  show_posts(div_id) {
+    this.get_posts_from_storage();
+    const div = document.getElementById(div_id);
+    this.posts.forEach((post) => {
+      div.appendChild(this.build_post(post.creator, post.title, post.body));
+    });
+  },
+};

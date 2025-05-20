@@ -96,13 +96,13 @@ const post_handler = {
     div.appendChild(actions);
     return div;
   },
-  create_post(logged, post_title, post_body) {
+  create_post(username, post_title, post_body) {
     this.create_posts_if_needed();
     this.get_posts_from_storage();
     this.create_id_if_needed();
     this.get_id_from_storage();
     this.posts.unshift({
-      creator: logged,
+      creator: username,
       id: this.last_id++,
       title: post_title,
       body: post_body,

@@ -15,23 +15,12 @@
     />
   </head>
   <body class="center-body">
-    <script src="../scripts/permissions.js"></script>
-    <script src="../scripts/users-handler.js"></script>
+    <script src="../scripts/user-handler.js"></script>
     <script>
-      // controlla se loggato
-      users_handler.get_logged();
-      exit_if_not_logged(users_handler.logged);
+      user_handler.exit_if_not_logged();
     </script>
     <div>
       <div class="row gap-5 align-items-center">
-        <div class="col-auto shadow rounded-3 p-5">
-          <h2 class="title mb-5">Utenti piu' attivi</h2>
-          <div
-            class="container text-center"
-            id="most_active_users"
-            style="overflow-y: auto; max-height: 130px"
-          ></div>
-        </div>
         <div class="col-auto shadow rounded-3 p-5">
           <div class="row align-items-center">
             <div class="col"><h1 class="title">Post</h1></div>
@@ -47,20 +36,12 @@
                   loading="lazy"
                 />
               </button>
-              <button class="btn">
-                <img
-                  class="img-size"
-                  src="../img/home/filter.png"
-                  alt="image not found!"
-                  loading="lazy"
-                />
-              </button>
             </div>
           </div>
           <br />
           <div
             class="container p-5"
-            id="posts"
+            id="posts_div"
             style="overflow-y: auto; max-height: 550px; max-width: 1000px"
           ></div>
         </div>
@@ -85,18 +66,11 @@
         </div>
       </div>
     </div>
-    <script src="../scripts/utility.js"></script>
     <script src="../scripts/post-handler.js"></script>
     <script>
-      // mostra gli utenti piu' attivi
-      users_handler.get_users();
-      utility.display_most_active_users(
-        "most_active_users",
-        users_handler.users
-      );
       // mostro i post
-      post_handler.show_posts("posts");
-      post_handler.show_default_posts("posts");
+      post_handler.show_posts("posts_div", user_handler.get_logged().username);
+      post_handler.show_default_posts("posts_div");
     </script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"

@@ -15,11 +15,9 @@
     />
   </head>
   <body class="center-body">
-    <script src="../scripts/users-handler.js"></script>
-    <script src="../scripts/permissions.js"></script>
+    <script src="../scripts/user-handler.js"></script>
     <script>
-      users_handler.get_logged();
-      exit_if_not_logged(users_handler.logged);
+      user_handler.exit_if_not_logged();
     </script>
     <div class="shadow rounded-3 p-5">
       <div class="container mb-5">
@@ -63,18 +61,13 @@
         const title = document.getElementById("title").value.trim();
         const contents = document.getElementById("contents").value.trim();
         if (title && contents) {
-          // se validi, crea il post
-          users_handler.get_users();
-          users_handler.get_logged();
+          // crea il post
           post_handler.create_post(
-            users_handler.users,
-            users_handler.logged,
+            user_handler.get_logged().username,
             title,
             contents
           );
         }
-        users_handler.load_users();
-        users_handler.load_logged();
         window.location.href = "./home.html";
       }
     </script>

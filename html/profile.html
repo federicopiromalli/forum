@@ -14,15 +14,15 @@
       crossorigin="anonymous"
     />
   </head>
-  <body class="center-body">
-    <script src="../scripts/users-handler.js"></script>
-    <script src="../scripts/permissions.js"></script>
+  <body
+    class="center-body"
+    onload="user_handler.show_profile_info('username', 'password', 'date');"
+  >
+    <script src="../scripts/user-handler.js"></script>
+    <script src="../scripts/post-handler.js"></script>
     <script>
-      // controlla se loggato
-      users_handler.get_logged();
-      exit_if_not_logged(users_handler.logged);
+      user_handler.exit_if_not_logged();
     </script>
-    <script src="../scripts/posts-handler.js"></script>
     <div class="shadow rounded-3 p-5">
       <div class="container mb-5">
         <h1 class="title">Le tue Info!</h1>
@@ -35,13 +35,11 @@
           <div class="col-auto title">
             <h5>Username</h5>
             <h5>Password</h5>
-            <h5>Punti attivita'</h5>
             <h5>Data creazione</h5>
           </div>
-          <div class="col-auto shadow rounded-3 p-5 text">
+          <div class="col-auto shadow rounded-3 p-5 post-body">
             <h5 id="username"></h5>
             <h5 id="password"></h5>
-            <h5 id="points"></h5>
             <h5 id="date"></h5>
           </div>
         </div>
@@ -49,13 +47,13 @@
       <div class="container d-grid gap-2 text">
         <button
           class="btn btn-danger shadow-lg"
-          onclick="users_handler.logout();"
+          onclick="user_handler.logout();"
         >
           Logout
         </button>
         <button
           class="btn btn-danger shadow-lg"
-          onclick="users_handler.delete_profile(); posts_handler.delete_posts(users_handler.logged.username);"
+          onclick="post_handler.delete_posts_by_username(user_handler.get_logged().username); user_handler.delete_profile();"
         >
           Cancella Profilo
         </button>
@@ -64,14 +62,6 @@
         </button>
       </div>
     </div>
-    <script>
-      users_handler.display_profile_info(
-        "username",
-        "password",
-        "points",
-        "date"
-      );
-    </script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"

@@ -54,17 +54,14 @@
         </form>
       </div>
     </div>
-    <script src="../scripts/users-handler.js"></script>
-    <script src="../scripts/forms-handler.js"></script>
+    <script src="../scripts/user-handler.js"></script>
     <script>
       function on_enter(event) {
         event.preventDefault();
         // controlli prima del login
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-        if (username.trim() && password.trim())
-          users_handler.login(username, password);
-        forms_handler.clear_fields_by_name("signin_field");
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        if (username && password) user_handler.login(username, password);
       }
     </script>
     <script

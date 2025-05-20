@@ -30,6 +30,16 @@ const post_handler = {
     // inserisce in localStorage l'ultimo id
     localStorage.setItem(this.last_id_item, this.last_id);
   },
+  update_last_id() {
+    // aggiorna l'id in caso di eliminazione di 1 o piu' post
+    this.get_posts_from_storage();
+    try {
+      this.last_id = this.posts.at(this.posts.length - 1).id;
+    } catch (error) {
+      this.last_id = 0;
+    }
+    this.load_id_in_storage();
+  },
   async request_default_posts() {
     // prendo i post generate automaticamente (api)
     try {
@@ -42,14 +52,14 @@ const post_handler = {
       return [];
     }
   },
-  build_post(username, title, body) {
+  build_post(username, logged_username, title, body, id) {
     // costruisco il post pezzo per pezzo
     const div = document.createElement("div");
-    div.className = "container shadow-lg rounded-3 p-4 mb-5";
+    div.className = "container border border-dark rounded-3 p-4 mb-5";
 
     const creator = document.createElement("h3");
     creator.className = "post-title";
-    creator.textContent = username;
+    creator.textContent = `@${username}`;
     div.appendChild(creator);
 
     div.appendChild(document.createElement("hr"));
@@ -59,41 +69,90 @@ const post_handler = {
     div.appendChild(post_title);
 
     const post_body = document.createElement("p");
-    post_body.className = "post-body";
+    post_body.className = "post-body text-break";
     post_body.textContent = body;
     div.appendChild(post_body);
 
+    const actions = document.createElement("div");
+    actions.className = "container text-end";
+
+    const answer = document.createElement("img");
+    answer.className = "post-img-size";
+    answer.src = "../img/home/comment.png";
+    actions.appendChild(answer);
+
+    // se username e logged_username coincidono allora il commento puo' essere eliminato
+    if (username === logged_username) {
+      const trash = document.createElement("img");
+      trash.className = "post-img-size ms-1";
+      trash.src = "../img/home/trash.png";
+      trash.addEventListener("click", () => {
+        this.delete_post_by_id(id);
+        window.location.reload();
+      });
+      actions.appendChild(trash);
+    }
+
+    div.appendChild(actions);
     return div;
   },
-  create_post(users, logged, post_title, post_body) {
+  create_post(logged, post_title, post_body) {
     this.create_posts_if_needed();
     this.get_posts_from_storage();
     this.create_id_if_needed();
     this.get_id_from_storage();
     this.posts.unshift({
-      creator: logged.username,
+      creator: logged,
       id: this.last_id++,
       title: post_title,
       body: post_body,
     });
     this.load_id_in_storage();
     this.load_posts_in_storage();
-    // aumento i punti di 1 per ogni post creato
-    ++logged.points;
-    ++users.find((user) => user.username === logged.username).points;
   },
   async show_default_posts(div_id) {
     const div = document.getElementById(div_id);
     const posts = await this.request_default_posts();
     posts.forEach((post) => {
-      div.appendChild(this.build_post("@Bot", post.title, post.body));
+      div.appendChild(
+        this.build_post("Bot", null, post.title, post.body, null)
+      );
     });
   },
-  show_posts(div_id) {
+  show_posts(div_id, logged_username) {
+    this.create_posts_if_needed();
     this.get_posts_from_storage();
     const div = document.getElementById(div_id);
     this.posts.forEach((post) => {
-      div.appendChild(this.build_post(post.creator, post.title, post.body));
+      div.appendChild(
+        this.build_post(
+          post.creator,
+          logged_username,
+          post.title,
+          post.body,
+          post.id
+        )
+      );
     });
+  },
+  delete_post_by_id(id) {
+    // cancello il post (caso in cui l'utente cancella il suo post)
+    this.get_posts_from_storage();
+    this.posts = this.posts.filter((post) => post.id !== id);
+    this.load_posts_in_storage();
+    this.update_last_id();
+  },
+  delete_posts_by_username(username) {
+    this.get_posts_from_storage();
+    // prendo i post che hanno username diverso da quello specificato
+    this.posts = this.posts.filter((post) => post.creator !== username);
+    // cancella la sezione dei post e dell'id post se necessario
+    if (this.posts.length === 0) {
+      localStorage.removeItem(this.posts_item);
+      localStorage.removeItem(this.last_id_item);
+    } else {
+      this.load_posts_in_storage();
+      this.update_last_id();
+    }
   },
 };

@@ -55,7 +55,7 @@ const post_handler = {
   build_post(username, logged_username, title, body, id) {
     // costruisco il post pezzo per pezzo
     const div = document.createElement("div");
-    div.className = "container border border-dark rounded-3 p-4 mb-5";
+    div.className = "container shadow-lg rounded-3 p-4 mb-5";
 
     const creator = document.createElement("h3");
     creator.className = "post-title";

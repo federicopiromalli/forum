@@ -69,6 +69,10 @@ const post_handler = {
     const answer = document.createElement("img");
     answer.className = "post-img-size";
     answer.src = "../img/home/comment.png";
+    answer.addEventListener("click", () => {
+      // TODO: aprire una modal in cui mostrare i commenti e in cui poter commentare
+      window.location.reload();
+    });
     actions.appendChild(answer);
 
     // se username e logged_username coincidono allora il commento puo' essere eliminato

@@ -30,16 +30,6 @@ const post_handler = {
     // inserisce in localStorage l'ultimo id
     localStorage.setItem(this.last_id_item, this.last_id);
   },
-  update_last_id() {
-    // aggiorna l'id in caso di eliminazione di 1 o piu' post
-    this.get_posts_from_storage();
-    try {
-      this.last_id = this.posts.at(this.posts.length - 1).id;
-    } catch (error) {
-      this.last_id = 0;
-    }
-    this.load_id_in_storage();
-  },
   async request_default_posts() {
     // prendo i post generate automaticamente (api)
     try {
@@ -140,7 +130,6 @@ const post_handler = {
     this.get_posts_from_storage();
     this.posts = this.posts.filter((post) => post.id !== id);
     this.load_posts_in_storage();
-    this.update_last_id();
   },
   delete_posts_by_username(username) {
     this.get_posts_from_storage();
@@ -152,7 +141,6 @@ const post_handler = {
       localStorage.removeItem(this.last_id_item);
     } else {
       this.load_posts_in_storage();
-      this.update_last_id();
     }
   },
 };

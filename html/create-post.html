@@ -47,7 +47,11 @@
           <br />
           <div class="container d-grid text gap-2">
             <button type="submit" class="btn btn-dark shadow-lg">Posta</button>
-            <button class="btn btn-dark shadow-lg" onclick="history.back();">
+            <button
+              class="btn btn-dark shadow-lg"
+              onclick="on_enter(event);"
+              type="menu"
+            >
               Indietro
             </button>
           </div>
@@ -60,7 +64,7 @@
         event.preventDefault();
         const title = document.getElementById("title").value.trim();
         const contents = document.getElementById("contents").value.trim();
-        if (title && contents) {
+        if (title && contents && event.type === "submit") {
           // crea il post
           post_handler.create_post(
             user_handler.get_logged().username,

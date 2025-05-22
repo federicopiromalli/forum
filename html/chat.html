@@ -15,22 +15,30 @@
     />
   </head>
   <body class="center-body">
+    <script src="../scripts/user-handler.js"></script>
+    <script>
+      user_handler.exit_if_not_logged();
+    </script>
     <div class="shadow rounded-3 p-5">
-      <div class="row gap-5 align-items-center">
+      <div class="row gap-5">
         <div class="col">
           <h1 class="title">Chat</h1>
           <h4 class="text">Scrivi a qualcuno!</h4>
           <div
-            class="container mt-5 rounded-3 shadow p-5 text-center"
+            class="container mt-5 mb-5 rounded-3 shadow p-5 text-center"
             id="users"
           ></div>
+          <div class="container d-grid">
+            <button class="btn btn-dark" onclick="history.back();">
+              Indietro
+            </button>
+          </div>
         </div>
         <div class="col-auto shadow rounded-3 p-5">
           <h3 class="post-title">Nessuna chat aperta...</h3>
         </div>
       </div>
     </div>
-    <script src="../scripts/user-handler.js"></script>
     <script src="../scripts/chat-handler.js"></script>
     <script>
       chat_handler.show_users(

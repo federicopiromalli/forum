@@ -17,6 +17,14 @@ const post_handler = {
     this.create_posts_if_needed();
     localStorage.setItem(this.posts_item, JSON.stringify(this.posts));
   },
+  remove_sections_if_useless() {
+    // rimuove la sezione dei post se sono vuoti
+    this.get_posts_from_storage();
+    if (this.posts.length === 0) {
+      localStorage.removeItem(this.posts_item);
+      localStorage.removeItem(this.last_id_item);
+    }
+  },
   create_id_if_needed() {
     // crea la sezione dell'ultimo id usato
     if (!localStorage.getItem(this.last_id_item))
@@ -140,11 +148,7 @@ const post_handler = {
     // prendo i post che hanno username diverso da quello specificato
     this.posts = this.posts.filter((post) => post.creator !== username);
     // cancella la sezione dei post e dell'id post se necessario
-    if (this.posts.length === 0) {
-      localStorage.removeItem(this.posts_item);
-      localStorage.removeItem(this.last_id_item);
-    } else {
-      this.load_posts_in_storage();
-    }
+    if (this.posts.length === 0) this.remove_sections_if_useless();
+    else this.load_posts_in_storage();
   },
 };

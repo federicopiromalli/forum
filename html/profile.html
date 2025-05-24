@@ -20,6 +20,7 @@
   >
     <script src="../scripts/user-handler.js"></script>
     <script src="../scripts/post-handler.js"></script>
+    <script src="../scripts/chat-handler.js"></script>
     <script>
       user_handler.exit_if_not_logged();
     </script>
@@ -53,7 +54,11 @@
         </button>
         <button
           class="btn btn-danger shadow-lg"
-          onclick="post_handler.delete_posts_by_username(user_handler.get_logged().username); user_handler.delete_profile();"
+          onclick="
+          post_handler.delete_posts_by_username(user_handler.get_logged().username);
+          chat_handler.delete_chats_by_username(user_handler.get_logged().username); 
+          user_handler.delete_profile();
+          "
         >
           Cancella Profilo
         </button>

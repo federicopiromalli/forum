@@ -25,8 +25,9 @@
           <h1 class="title">Chat</h1>
           <h4 class="text">Scrivi a qualcuno!</h4>
           <div
-            class="container mt-5 mb-5 rounded-3 shadow p-5 text-center"
+            class="container mt-5 mb-5 text-center text placeholder-wave gap-1 d-grid"
             id="users"
+            style="max-height: 120px; overflow-y: auto"
           ></div>
           <div class="container d-grid">
             <button class="btn btn-dark" onclick="history.back();">
@@ -34,8 +35,8 @@
             </button>
           </div>
         </div>
-        <div class="col-auto shadow rounded-3 p-5">
-          <h3 class="post-title">Nessuna chat aperta...</h3>
+        <div class="col-auto shadow rounded-3 p-5" id="chat">
+          <h3 class="title">Nessuna chat aperta...</h3>
         </div>
       </div>
     </div>

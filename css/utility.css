@@ -12,3 +12,7 @@
 .post-img-size {
   width: 32px;
 }
+
+.scrollbar::-webkit-scrollbar {
+  display: none;
+}

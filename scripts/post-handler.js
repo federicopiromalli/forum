@@ -56,18 +56,18 @@ const post_handler = {
     div.className = "container border border-dark rounded-3 p-4 mb-5";
 
     const creator = document.createElement("h3");
-    creator.className = "post-title";
+    creator.className = "title";
     creator.textContent = `@${username}`;
     div.appendChild(creator);
 
     div.appendChild(document.createElement("hr"));
     const post_title = document.createElement("h4");
-    post_title.className = "post-title";
+    post_title.className = "title";
     post_title.textContent = title;
     div.appendChild(post_title);
 
     const post_body = document.createElement("p");
-    post_body.className = "post-body text-break";
+    post_body.className = "text text-break";
     post_body.textContent = body;
     div.appendChild(post_body);
 

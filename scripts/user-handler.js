@@ -79,14 +79,24 @@ const user_handler = {
       window.location.href = "./index.html";
     }
   },
-  show_profile_info(username_id, password_id, date_id) {
+  show_profile_info(div_id) {
     // mostra le info del profilo nei campi specificati
     this.get_logged_from_storage();
-    document.getElementById(
-      username_id
-    ).textContent = `@${this.logged.username}`;
-    document.getElementById(password_id).textContent = this.logged.password;
-    document.getElementById(date_id).textContent = this.logged.date;
+    // document.getElementById(
+    //   username_id
+    // ).textContent = `@${this.logged.username}`;
+    // document.getElementById(password_id).textContent = this.logged.password;
+    // document.getElementById(date_id).textContent = this.logged.date;
+    const div = document.getElementById(div_id);
+    [this.logged.username, this.logged.password, this.logged.date].forEach(
+      (info) => {
+        const element = document.createElement("h5");
+        element.classList.add("fade-right");
+        element.textContent = info;
+        div.appendChild(element);
+        setTimeout(() => element.classList.add("show"), 50);
+      }
+    );
   },
   logout() {
     localStorage.removeItem(this.logged_item);

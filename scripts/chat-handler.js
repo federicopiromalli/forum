@@ -48,7 +48,7 @@ const chat_handler = {
     // messaggi inviati
     const history = document.createElement("div");
     history.className = "scrollbar mb-5 mt-5";
-    history.style.maxHeight = "200px";
+    history.style.maxHeight = "300px";
     history.style.overflowY = "auto";
     this.insert_messages(chat, history);
     // scrvi messaggio
@@ -69,15 +69,15 @@ const chat_handler = {
     });
     // container scrivi messaggio
     const col_message = document.createElement("div");
-    col_message.className = "col-auto text-center";
+    col_message.className = "col-auto";
     col_message.appendChild(message);
     // container invia messaggio
     const col_send = document.createElement("div");
-    col_send.className = "col-auto text-end";
+    col_send.className = "col-auto";
     col_send.appendChild(send);
     // container colonne scrivi e invia messaggio
     const actions = document.createElement("div");
-    actions.className = "row align-items-center";
+    actions.className = "row align-items-center justify-content-center";
     actions.appendChild(col_message);
     actions.appendChild(col_send);
     // container chat

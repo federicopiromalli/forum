@@ -53,7 +53,7 @@ const post_handler = {
   build_post(username, logged_username, title, body, id) {
     // costruisco il post pezzo per pezzo
     const div = document.createElement("div");
-    div.className = "container border border-dark rounded-3 p-4 mb-5";
+    div.className = "container shadow-lg rounded-3 p-4 mb-5 fade-in";
 
     const creator = document.createElement("h3");
     creator.className = "title";
@@ -116,9 +116,15 @@ const post_handler = {
     const div = document.getElementById(div_id);
     const posts = await this.request_default_posts();
     posts.forEach((post) => {
-      div.appendChild(
-        this.build_post("Bot", null, post.title, post.body, null)
+      const post_element = this.build_post(
+        "Bot",
+        null,
+        post.title,
+        post.body,
+        null
       );
+      div.appendChild(post_element);
+      setTimeout(() => post_element.classList.add("show"), 50);
     });
   },
   show_posts(div_id, logged_username) {
@@ -126,15 +132,15 @@ const post_handler = {
     this.get_posts_from_storage();
     const div = document.getElementById(div_id);
     this.posts.forEach((post) => {
-      div.appendChild(
-        this.build_post(
-          post.creator,
-          logged_username,
-          post.title,
-          post.body,
-          post.id
-        )
+      const post_element = this.build_post(
+        post.creator,
+        logged_username,
+        post.title,
+        post.body,
+        post.id
       );
+      div.appendChild(post_element);
+      setTimeout(() => post_element.classList.add("show"), 50);
     });
   },
   delete_post_by_id(id) {

@@ -14,10 +14,7 @@
       crossorigin="anonymous"
     />
   </head>
-  <body
-    class="center-body"
-    onload="user_handler.show_profile_info('username', 'password', 'date');"
-  >
+  <body class="center-body" onload="user_handler.show_profile_info('info');">
     <script src="../scripts/user-handler.js"></script>
     <script src="../scripts/post-handler.js"></script>
     <script src="../scripts/chat-handler.js"></script>
@@ -38,11 +35,7 @@
             <h5>Password</h5>
             <h5>Data creazione</h5>
           </div>
-          <div class="col-auto shadow rounded-3 p-5 post-body">
-            <h5 id="username"></h5>
-            <h5 id="password"></h5>
-            <h5 id="date"></h5>
-          </div>
+          <div class="col-auto shadow rounded-3 p-5 text" id="info"></div>
         </div>
       </div>
       <div class="container d-grid gap-2 text">

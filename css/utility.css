@@ -16,3 +16,25 @@
 .scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-right {
+  opacity: 0;
+  transform: translateX(-45px);
+  transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+}
+
+.fade-right.show {
+  opacity: 1;
+  transform: translateY(0);
+}

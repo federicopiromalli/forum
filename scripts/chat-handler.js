@@ -1,143 +1,126 @@
 const chat_handler = {
   chats: [],
-  chat_item: "chats",
-  create_chats_if_needed() {
-    // crea la sezione dei messaggi
-    if (!localStorage.getItem(this.chat_item))
-      localStorage.setItem(this.chat_item, JSON.stringify([]));
-  },
+  chats_item: "chats",
   get_chats_from_storage() {
-    // prendo le chat da localStorage
-    this.chats = JSON.parse(localStorage.getItem(this.chat_item));
+    // prende le chat da localStorage
+    this.chats = JSON.parse(localStorage.getItem(this.chats_item)) || [];
   },
   load_chats_in_storage() {
-    // inserisco le chat dentro localStorage
-    localStorage.setItem(this.chat_item, JSON.stringify(this.chats));
+    // carica in localStorage le chat attuali
+    localStorage.setItem(this.chats_item, JSON.stringify(this.chats));
   },
-  search_chat_by_username(username) {
-    // cerca una chat partendo dal nome del destinatario
-    this.create_chats_if_needed();
-    return this.chats.find((chat) => chat.receiver === username);
+  search_chat_by_username(username, logged_username) {
+    this.get_chats_from_storage();
+    return this.chats.find(
+      (chat) =>
+        (chat.from === logged_username && chat.to === username) ||
+        (chat.from === username && chat.to === logged_username)
+    );
   },
-  insert_messages(chat, history_div) {
-    // inserisce in una chat i messaggi salvati in history
-    chat.history.forEach((message) => {
-      const div = document.createElement("div");
-      div.className = "d-flex bg-light rounded-3 p-2 mb-2 text-break";
-      div.style.maxWidth = "400px";
-      if (chat.sender === message.sender)
-        div.classList.add("justify-content-end");
-      // messaggio
-      div.innerHTML = `<p><b>@${message.sender}</b><br>${message.content}</p>`;
-      history_div.appendChild(div);
+  build_history(history, history_div, logged) {
+    // costruisco i messaggi
+    history.forEach((message) => {
+      const message_panel = document.createElement("div");
+      message_panel.className = "container bg-light rounded-3 p-2 text mb-2";
+      // message_panel.textContent = `@${logged.username}`;
+      // message_panel.textContent += message.content;
+      const from = document.createElement("h6");
+      from.className = "title";
+      from.textContent = `@${message.sender}`;
+      const content = document.createElement("div");
+      content.className = "contanter text-break";
+      content.textContent = message.content;
+      message_panel.appendChild(from);
+      message_panel.appendChild(content);
+      // formatto il testo a destra se chi l'ha mandato e' logged in questo momento
+      if (message.sender === logged.username)
+        message_panel.classList.add("text-end");
+      history_div.appendChild(message_panel);
     });
   },
-  send_message(chat, sender_username, message_content) {
-    // invia un messaggio ad un utente
-    chat.history.push({
-      sender: sender_username,
-      content: message_content,
+  send_message(from, history, message) {
+    history.push({
+      sender: from,
+      content: message,
     });
-    this.load_chats_in_storage();
   },
-  build_chat(chat) {
-    // destinatario
-    const receiver = document.createElement("h3");
-    receiver.className = "title";
-    receiver.textContent = `@${chat.receiver}`;
-    // messaggi inviati
-    const history = document.createElement("div");
-    history.className = "scrollbar mb-5 mt-5";
-    history.style.maxHeight = "300px";
-    history.style.overflowY = "auto";
-    this.insert_messages(chat, history);
-    // scrvi messaggio
-    const message = document.createElement("textarea");
-    message.className = "form-control shadow rounded-3 p-2";
-    message.style.resize = "none";
-    message.style.border = "none";
-    message.placeholder = "Scrivi qualcosa...";
-    // invia messaggio
+  build_chat(chat, logged, to) {
+    // mostro nome destinatario
+    const to_panel = document.createElement("h3");
+    to_panel.textContent = `@${to}`;
+    to_panel.className = "title";
+    // mostro cronologia chat
+    const history_panel = document.createElement("div");
+    history_panel.className = "container mt-5 mb-5 scrollbar";
+    history_panel.style.maxWidth = "500px";
+    history_panel.style.maxHeight = "350px";
+    history_panel.style.overflowY = "auto";
+    this.build_history(chat.history, history_panel, logged);
+    // mostro azioni (scrivi e invia messaggio)
+    const actions = document.createElement("div");
+    actions.className = "row align-items-center justify-content-center";
+    const write_col = document.createElement("div");
+    write_col.className = "col-auto";
+    const write = document.createElement("textarea");
+    write.className = "form-control rounded-3 shadow-lg p-2 text";
+    write.style.resize = "none";
+    write.style.border = "none";
+    write.placeholder = "Scrivi qualcosa...";
+    const send_col = document.createElement("div");
+    send_col.className = "col-auto";
     const send = document.createElement("img");
     send.src = "../img/home/messages.png";
     send.className = "post-img-size";
     send.addEventListener("click", () => {
-      if (message.value.trim()) {
-        this.send_message(chat, chat.sender, message.value);
-        this.open_chat_between(chat.receiver, chat.sender);
+      const content = write.value.trim();
+      if (content) {
+        this.send_message(logged.username, chat.history, content);
+        this.load_chats_in_storage();
       }
     });
-    // container scrivi messaggio
-    const col_message = document.createElement("div");
-    col_message.className = "col-auto";
-    col_message.appendChild(message);
-    // container invia messaggio
-    const col_send = document.createElement("div");
-    col_send.className = "col-auto";
-    col_send.appendChild(send);
-    // container colonne scrivi e invia messaggio
-    const actions = document.createElement("div");
-    actions.className = "row align-items-center justify-content-center";
-    actions.appendChild(col_message);
-    actions.appendChild(col_send);
-    // container chat
+    write_col.appendChild(write);
+    send_col.appendChild(send);
+    actions.appendChild(write_col);
+    actions.appendChild(send_col);
+    // aggiungo tutto al contenitore principale
     const div = document.createElement("div");
-    div.appendChild(receiver);
-    div.append(document.createElement("hr"));
-    div.appendChild(history);
+    div.appendChild(to_panel);
+    div.appendChild(document.createElement("hr"));
+    div.appendChild(history_panel);
     div.appendChild(actions);
     return div;
   },
-  open_chat_between(receiver_username, sender_username) {
-    // apre una chat e mostra i messaggi precedenti se presenti
-    this.create_chats_if_needed();
-    this.get_chats_from_storage();
-    let chat = this.search_chat_by_username(receiver_username);
-    // creo la chat se non esiste
+  open_chat(logged, select_id, div_id) {
+    // prendo il destinatario
+    const user = document.getElementById(select_id).value;
+    if (!user) return;
+
+    let chat = this.search_chat_by_username(user, logged.username);
     if (!chat) {
+      // crea e configura la chat se inesistente
       chat = {
-        sender: sender_username,
-        receiver: receiver_username,
+        from: logged.username,
+        to: user,
         history: [],
       };
       this.chats.push(chat);
       this.load_chats_in_storage();
     }
     // mostro la chat
-    const div = document.getElementById("chat");
-    div.innerHTML = "";
-    div.appendChild(this.build_chat(chat));
-  },
-  show_users(users, logged_username, div_id) {
-    // mostro gli utenti nella pagina delle chat
     const div = document.getElementById(div_id);
-    // se non ci sono altri utenti che quello loggato
-    if (users.length === 1 && users.at(0).username === logged_username) {
-      const message = document.createElement("h4");
-      message.textContent = "Nessun utente!";
-      message.className = "title";
-      div.appendChild(message);
-      return;
-    }
-    // mostro gli utenti
+    div.innerHTML = "";
+    div.appendChild(this.build_chat(chat, logged, user));
+  },
+  show_users(users, logged_username, select_id) {
+    // mostro gli utenti disponibili per avere una chat
+    const select = document.getElementById(select_id);
     users.forEach((user) => {
       if (user.username !== logged_username) {
-        const button = document.createElement("button");
-        button.className = "btn btn-dark rounded-3";
-        button.textContent = user.username;
-        // apro la chat al click del profilo
-        button.addEventListener("click", () => {
-          this.open_chat_between(user.username, logged_username);
-        });
-        div.appendChild(button);
+        const option = document.createElement("option");
+        option.value = user.username;
+        option.textContent = user.username;
+        select.appendChild(option);
       }
     });
-  },
-  delete_chats_by_username(username) {
-    this.create_chats_if_needed();
-    this.get_chats_from_storage();
-    this.chats = this.chats.filter((chat) => chat.sender !== username);
-    if (this.chats.length === 0) localStorage.removeItem(this.chat_item);
-    else this.load_chats_in_storage();
   },
 };

@@ -2,7 +2,7 @@ const post_handler = {
   posts: [],
   posts_item: "posts",
   last_id: 0,
-  last_id_item: "last_id",
+  last_id_item: "posts_last_id",
   create_posts_if_needed() {
     // crea la sezione dei post se necessario
     if (!localStorage.getItem(this.posts_item))

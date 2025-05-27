@@ -1,6 +1,7 @@
 const chat_handler = {
   chats: [],
   chats_item: "chats",
+  users_id: "users",
   get_chats_from_storage() {
     // prende le chat da localStorage
     this.chats = JSON.parse(localStorage.getItem(this.chats_item)) || [];
@@ -19,9 +20,10 @@ const chat_handler = {
   },
   build_history(history, history_div, logged) {
     // costruisco i messaggi
+    const class_name = "message";
     history.forEach((message) => {
       const message_panel = document.createElement("div");
-      message_panel.className = "container bg-light rounded-3 p-2 text mb-2";
+      message_panel.className = `container bg-light rounded-3 p-2 text mb-2 fade-in ${class_name}`;
       // message_panel.textContent = `@${logged.username}`;
       // message_panel.textContent += message.content;
       const from = document.createElement("h6");
@@ -36,6 +38,10 @@ const chat_handler = {
       if (message.sender === logged.username)
         message_panel.classList.add("text-end");
       history_div.appendChild(message_panel);
+      setTimeout(() => message_panel.classList.add("show"), 50);
+    });
+    requestAnimationFrame(() => {
+      history_div.scrollTop = history_div.scrollHeight;
     });
   },
   send_message(from, history, message) {
@@ -44,7 +50,7 @@ const chat_handler = {
       content: message,
     });
   },
-  build_chat(chat, logged, to) {
+  build_chat(chat, logged, to, div_id) {
     // mostro nome destinatario
     const to_panel = document.createElement("h3");
     to_panel.textContent = `@${to}`;
@@ -76,6 +82,7 @@ const chat_handler = {
       if (content) {
         this.send_message(logged.username, chat.history, content);
         this.load_chats_in_storage();
+        this.open_chat(logged, div_id);
       }
     });
     write_col.appendChild(write);
@@ -90,9 +97,9 @@ const chat_handler = {
     div.appendChild(actions);
     return div;
   },
-  open_chat(logged, select_id, div_id) {
+  open_chat(logged, div_id) {
     // prendo il destinatario
-    const user = document.getElementById(select_id).value;
+    const user = document.getElementById(this.users_id).value;
     if (!user) return;
 
     let chat = this.search_chat_by_username(user, logged.username);
@@ -109,11 +116,11 @@ const chat_handler = {
     // mostro la chat
     const div = document.getElementById(div_id);
     div.innerHTML = "";
-    div.appendChild(this.build_chat(chat, logged, user));
+    div.appendChild(this.build_chat(chat, logged, user, div_id));
   },
   show_users(users, logged_username, select_id) {
     // mostro gli utenti disponibili per avere una chat
-    const select = document.getElementById(select_id);
+    const select = document.getElementById(this.users_id);
     users.forEach((user) => {
       if (user.username !== logged_username) {
         const option = document.createElement("option");

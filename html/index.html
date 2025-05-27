@@ -15,6 +15,15 @@
     />
   </head>
   <body class="center-body">
+    <script>
+      // previene l'utilizzo di firefox, usando firefox, localStorage non funziona correttamente
+      // e potrebbe incappare in problemi di dati non salvati.
+      if (window.navigator.userAgent.indexOf("Firefox") > -1) {
+        alert("Browser basato su FireFox!\nQuesto forum non va qui'!");
+        window.stop();
+        window.location.reload();
+      }
+    </script>
     <div class="shadow rounded-3 p-5">
       <div class="container mb-5">
         <h1 class="title">Ciao.</h1>

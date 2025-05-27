@@ -14,8 +14,12 @@
       crossorigin="anonymous"
     />
   </head>
-  <body class="center-body">
+  <body
+    class="center-body"
+    onload="chat_handler.show_users(user_handler.get_users(), user_handler.get_logged().username, 'users');"
+  >
     <script src="../scripts/user-handler.js"></script>
+    <script src="../scripts/chat-handler.js"></script>
     <script>
       user_handler.exit_if_not_logged();
     </script>
@@ -24,11 +28,13 @@
         <div class="col">
           <h1 class="title">Chat</h1>
           <h4 class="text">Scrivi a qualcuno!</h4>
-          <div
-            class="container mt-5 text placeholder-wave gap-1 d-grid"
+          <select
             id="users"
-            style="max-height: 120px; overflow-y: auto"
-          ></div>
+            class="mt-5 text form-select"
+            onchange="chat_handler.open_chat(user_handler.get_logged(), 'users', 'chat');"
+          >
+            <option value="" selected>Scegli un utente!</option>
+          </select>
         </div>
       </div>
       <div class="container d-grid">
@@ -41,14 +47,6 @@
     <div class="shadow rounded-3 p-5 ms-5" id="chat">
       <h3 class="title">Nessuna chat aperta...</h3>
     </div>
-    <script src="../scripts/chat-handler.js"></script>
-    <script>
-      chat_handler.show_users(
-        user_handler.get_users(),
-        user_handler.get_logged().username,
-        "users"
-      );
-    </script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"

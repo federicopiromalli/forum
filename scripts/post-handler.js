@@ -3,18 +3,12 @@ const post_handler = {
   posts_item: "posts",
   last_id: 0,
   last_id_item: "posts_last_id",
-  create_posts_if_needed() {
-    // crea la sezione dei post se necessario
-    if (!localStorage.getItem(this.posts_item))
-      localStorage.setItem(this.posts_item, JSON.stringify([]));
-  },
   get_posts_from_storage() {
     // prende i post da localStorage
-    this.posts = JSON.parse(localStorage.getItem(this.posts_item));
+    this.posts = JSON.parse(localStorage.getItem(this.posts_item)) || [];
   },
   load_posts_in_storage() {
     // inserisce i post in localStorage
-    this.create_posts_if_needed();
     localStorage.setItem(this.posts_item, JSON.stringify(this.posts));
   },
   remove_sections_if_useless() {
@@ -90,7 +84,6 @@ const post_handler = {
     return div;
   },
   create_post(username, post_title, post_body) {
-    this.create_posts_if_needed();
     this.get_posts_from_storage();
     this.create_id_if_needed();
     this.get_id_from_storage();
@@ -119,7 +112,6 @@ const post_handler = {
     });
   },
   show_posts(div_id, logged_username) {
-    this.create_posts_if_needed();
     this.get_posts_from_storage();
     const div = document.getElementById(div_id);
     this.posts.forEach((post) => {

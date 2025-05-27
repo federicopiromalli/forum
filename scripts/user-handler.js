@@ -3,14 +3,9 @@ const user_handler = {
   users_item: "users",
   logged: {},
   logged_item: "logged",
-  create_users_if_needed() {
-    // creo la sezione utenti se necessario
-    if (!localStorage.getItem(this.users_item))
-      localStorage.setItem(this.users_item, JSON.stringify([]));
-  },
   get_users_from_storage() {
     // prendo gli utenti da localStorage
-    this.users = JSON.parse(localStorage.getItem(this.users_item));
+    this.users = JSON.parse(localStorage.getItem(this.users_item)) || [];
   },
   load_users_in_storage() {
     // inserisco gli utenti in localStorage
@@ -18,13 +13,11 @@ const user_handler = {
   },
   get_users() {
     // ritorna gli utenti
-    this.create_users_if_needed();
     this.get_users_from_storage();
     return this.users;
   },
   get_user_by_username(username) {
     // ritorna un utente da username
-    this.create_users_if_needed();
     this.get_users_from_storage();
     return this.users.find((user) => user.username === username);
   },

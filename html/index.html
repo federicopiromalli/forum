@@ -19,8 +19,8 @@
       // previene l'utilizzo di firefox, usando firefox, localStorage non funziona correttamente
       // e potrebbe incappare in problemi di dati non salvati.
       if (window.navigator.userAgent.indexOf("Firefox") > -1) {
-        alert("Browser basato su FireFox!\nQuesto forum non va qui'!");
         window.stop();
+        alert("Browser basato su FireFox!\nQuesto forum non va qui'!");
         window.location.reload();
       }
     </script>

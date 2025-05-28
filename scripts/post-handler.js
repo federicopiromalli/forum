@@ -2,7 +2,21 @@ const post_handler = {
   posts: [],
   posts_item: "posts",
   last_id: 0,
+  default_posts: [],
+  default_posts_item: "default_posts",
   last_id_item: "posts_last_id",
+  get_default_posts_from_storage() {
+    // prende i post api da localStorage
+    this.default_posts =
+      JSON.parse(localStorage.getItem(this.default_posts_item)) || [];
+  },
+  load_default_posts_in_storage() {
+    // inserisce i post api in localStorage
+    localStorage.setItem(
+      this.default_posts_item,
+      JSON.stringify(this.default_posts)
+    );
+  },
   get_posts_from_storage() {
     // prende i post da localStorage
     this.posts = JSON.parse(localStorage.getItem(this.posts_item)) || [];
@@ -97,9 +111,14 @@ const post_handler = {
     this.load_posts_in_storage();
   },
   async show_default_posts(div_id) {
+    // mostro i post default
+    this.get_default_posts_from_storage();
+    if (this.default_posts.length === 0) {
+      this.default_posts = await this.request_default_posts();
+      this.load_default_posts_in_storage();
+    }
     const div = document.getElementById(div_id);
-    const posts = await this.request_default_posts();
-    posts.forEach((post) => {
+    this.default_posts.forEach((post) => {
       const post_element = this.build_post(
         "Bot",
         null,

@@ -51,10 +51,27 @@ const chat_handler = {
     });
   },
   build_chat(chat, logged, to, div_id) {
-    // mostro nome destinatario
-    const to_panel = document.createElement("h3");
-    to_panel.textContent = `@${to}`;
-    to_panel.className = "title";
+    // mostro nome destinatario e tasto chiusura
+    const to_name = document.createElement("h3");
+    to_name.textContent = `@${to}`;
+    to_name.className = "title";
+    const to_col = document.createElement("div");
+    to_col.className = "col";
+    to_col.appendChild(to_name);
+    const close = document.createElement("img");
+    close.src = "../img/chat/close_chat.png";
+    close.className = "post-img-size";
+    close.loading = "lazy";
+    close.addEventListener("click", () => {
+      window.location.reload();
+    });
+    const close_col = document.createElement("div");
+    close_col.className = "col-auto";
+    close_col.appendChild(close);
+    const header = document.createElement("div");
+    header.className = "row align-items-center";
+    header.appendChild(to_col);
+    header.appendChild(close_col);
     // mostro cronologia chat
     const history_panel = document.createElement("div");
     history_panel.className = "container mt-5 mb-5 scrollbar";
@@ -77,6 +94,7 @@ const chat_handler = {
     const send = document.createElement("img");
     send.src = "../img/chat/send_message.png";
     send.className = "post-img-size";
+    send.loading = "lazy";
     send.addEventListener("click", () => {
       const content = write.value.trim();
       if (content) {
@@ -91,7 +109,7 @@ const chat_handler = {
     actions.appendChild(send_col);
     // aggiungo tutto al contenitore principale
     const div = document.createElement("div");
-    div.appendChild(to_panel);
+    div.appendChild(header);
     div.appendChild(document.createElement("hr"));
     div.appendChild(history_panel);
     div.appendChild(actions);
@@ -125,9 +143,17 @@ const chat_handler = {
       if (user.username !== logged_username) {
         const option = document.createElement("option");
         option.value = user.username;
-        option.textContent = user.username;
+        option.textContent = `@${user.username}`;
         select.appendChild(option);
       }
     });
+  },
+  delete_chats_by_username(username) {
+    // cancella tutte le chat di un utente, usato alla cancellazione dell'account
+    this.get_chats_from_storage();
+    this.chats = this.chats.filter(
+      (chat) => chat.from !== username && chat.to !== username
+    );
+    this.load_chats_in_storage();
   },
 };

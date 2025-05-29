@@ -36,10 +36,8 @@ const post_handler = {
     if (
       Object.keys(localStorage).length == 1 &&
       Object.keys(localStorage)[0] === this.default_posts_item
-    ) {
-      alert("entrato");
+    )
       localStorage.removeItem(this.default_posts_item);
-    }
   },
   get_id_from_storage() {
     // prendo l'ultimo id usato

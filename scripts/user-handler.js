@@ -11,6 +11,11 @@ const user_handler = {
     // inserisco gli utenti in localStorage
     localStorage.setItem(this.users_item, JSON.stringify(this.users));
   },
+  remove_section_if_useless() {
+    // rimuove le sezioni utenti se non ci sono utenti
+    this.get_users_from_storage();
+    if (this.users.length === 0) localStorage.removeItem(this.users_item);
+  },
   get_users() {
     // ritorna gli utenti
     this.get_users_from_storage();
@@ -102,9 +107,8 @@ const user_handler = {
     this.users = this.users.filter(
       (user) => user.username !== this.logged.username
     );
-    // cancello la sezione utenti se necessario
-    if (this.users.length === 0) localStorage.removeItem(this.users_item);
-    else this.load_users_in_storage();
+    this.load_users_in_storage();
+    this.remove_section_if_useless();
     this.logout();
   },
 };

@@ -10,6 +10,11 @@ const chat_handler = {
     // carica in localStorage le chat attuali
     localStorage.setItem(this.chats_item, JSON.stringify(this.chats));
   },
+  remove_section_if_useless() {
+    // rimuove la sezione chat da localStorage se non ci sono chat
+    this.get_chats_from_storage();
+    if (this.chats.length === 0) localStorage.removeItem(this.chats_item);
+  },
   search_chat_by_username(username, logged_username) {
     this.get_chats_from_storage();
     return this.chats.find(
@@ -155,5 +160,6 @@ const chat_handler = {
       (chat) => chat.from !== username && chat.to !== username
     );
     this.load_chats_in_storage();
+    this.remove_section_if_useless();
   },
 };

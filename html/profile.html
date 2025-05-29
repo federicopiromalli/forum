@@ -48,9 +48,10 @@
         <button
           class="btn btn-danger shadow-lg"
           onclick="
-          post_handler.delete_posts_by_username(user_handler.get_logged().username);
-          chat_handler.delete_chats_by_username(user_handler.get_logged().username); 
+          const logged_username = user_handler.get_logged().username;
+          chat_handler.delete_chats_by_username(logged_username); 
           user_handler.delete_profile();
+          post_handler.delete_posts_by_username(logged_username);
           "
         >
           Cancella Profilo

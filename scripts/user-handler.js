@@ -80,11 +80,6 @@ const user_handler = {
   show_profile_info(div_id) {
     // mostra le info del profilo nei campi specificati
     this.get_logged_from_storage();
-    // document.getElementById(
-    //   username_id
-    // ).textContent = `@${this.logged.username}`;
-    // document.getElementById(password_id).textContent = this.logged.password;
-    // document.getElementById(date_id).textContent = this.logged.date;
     const div = document.getElementById(div_id);
     [this.logged.username, this.logged.password, this.logged.date].forEach(
       (info) => {

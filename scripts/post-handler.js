@@ -32,19 +32,22 @@ const post_handler = {
       localStorage.removeItem(this.posts_item);
       localStorage.removeItem(this.last_id_item);
     }
-  },
-  create_id_if_needed() {
-    // crea la sezione dell'ultimo id usato
-    if (!localStorage.getItem(this.last_id_item))
-      localStorage.setItem(this.last_id_item, JSON.stringify(0));
+    // cancello i post default se l'unica chiave rimasta
+    if (
+      Object.keys(localStorage).length == 1 &&
+      Object.keys(localStorage)[0] === this.default_posts_item
+    ) {
+      alert("entrato");
+      localStorage.removeItem(this.default_posts_item);
+    }
   },
   get_id_from_storage() {
     // prendo l'ultimo id usato
-    this.last_id = JSON.parse(localStorage.getItem(this.last_id_item));
+    this.last_id = JSON.parse(localStorage.getItem(this.last_id_item)) || [];
   },
   load_id_in_storage() {
     // inserisce in localStorage l'ultimo id
-    localStorage.setItem(this.last_id_item, this.last_id);
+    localStorage.setItem(this.last_id_item, JSON.stringify(this.last_id));
   },
   async request_default_posts() {
     // prendo i post generate automaticamente (api)
@@ -99,7 +102,6 @@ const post_handler = {
   },
   create_post(username, post_title, post_body) {
     this.get_posts_from_storage();
-    this.create_id_if_needed();
     this.get_id_from_storage();
     this.posts.unshift({
       creator: username,
@@ -111,12 +113,13 @@ const post_handler = {
     this.load_posts_in_storage();
   },
   async show_default_posts(div_id) {
-    // mostro i post default
+    // prendo i post default
     this.get_default_posts_from_storage();
     if (this.default_posts.length === 0) {
       this.default_posts = await this.request_default_posts();
       this.load_default_posts_in_storage();
     }
+    // mostro i post default
     const div = document.getElementById(div_id);
     this.default_posts.forEach((post) => {
       const post_element = this.build_post(
@@ -150,13 +153,13 @@ const post_handler = {
     this.get_posts_from_storage();
     this.posts = this.posts.filter((post) => post.id !== id);
     this.load_posts_in_storage();
+    this.remove_sections_if_useless();
   },
   delete_posts_by_username(username) {
     this.get_posts_from_storage();
     // prendo i post che hanno username diverso da quello specificato
     this.posts = this.posts.filter((post) => post.creator !== username);
-    // cancella la sezione dei post e dell'id post se necessario
-    if (this.posts.length === 0) this.remove_sections_if_useless();
-    else this.load_posts_in_storage();
+    this.load_posts_in_storage();
+    this.remove_sections_if_useless();
   },
 };

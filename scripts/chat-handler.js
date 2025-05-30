@@ -100,6 +100,7 @@ const chat_handler = {
     send.src = "../img/chat/send_message.png";
     send.className = "post-img-size";
     send.loading = "lazy";
+    send.style.cursor = "pointer";
     send.addEventListener("click", () => {
       const content = write.value.trim();
       if (content) {

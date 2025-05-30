@@ -67,6 +67,7 @@ const chat_handler = {
     close.src = "../img/chat/close_chat.png";
     close.className = "post-img-size";
     close.loading = "lazy";
+    close.style.cursor = "pointer";
     close.addEventListener("click", () => {
       window.location.reload();
     });
